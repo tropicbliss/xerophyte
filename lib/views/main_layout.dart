@@ -261,6 +261,7 @@ class _MainLayoutState extends State<MainLayout> {
                       onChange: () {
                         setState(() {});
                       },
+                      isValidXml: isValidXml,
                     ),
                     Center(
                       child: Text(

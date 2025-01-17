@@ -10,12 +10,14 @@ class XmlEditor extends StatelessWidget {
   final CodeLineEditingController editorController;
   final CodeFindController findController;
   final void Function() onChange;
+  final bool isValidXml;
 
   const XmlEditor(
       {super.key,
       required this.editorController,
       required this.findController,
-      required this.onChange});
+      required this.onChange,
+      required this.isValidXml});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class XmlEditor extends StatelessWidget {
           ],
         );
       },
-      chunkAnalyzer: XmlCodeChunkAnalyzer(),
+      chunkAnalyzer: XmlCodeChunkAnalyzer(isValidXml: isValidXml),
       wordWrap: false,
       autofocus: false,
       controller: editorController,

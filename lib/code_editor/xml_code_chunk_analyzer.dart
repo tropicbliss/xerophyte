@@ -1,8 +1,15 @@
 import 'package:re_editor/re_editor.dart';
 
 class XmlCodeChunkAnalyzer implements CodeChunkAnalyzer {
+  final bool isValidXml;
+
+  XmlCodeChunkAnalyzer({required this.isValidXml});
+
   @override
   List<CodeChunk> run(CodeLines codeLines) {
+    if (!isValidXml) {
+      return [];
+    }
     final lines = codeLines.toList().map((codeLine) => codeLine.text).toList();
     final tagStack = <(String, int)>[];
     final tagPairs = <CodeChunk>[];
