@@ -20,10 +20,16 @@ final class XmlSuccess extends XmlResult {
   const XmlSuccess(this.document);
 }
 
-final class XmlFailure extends XmlResult {
+final class XmlError {
   final String message;
   final int line;
-  const XmlFailure(this.message, this.line);
+
+  XmlError({required this.message, required this.line});
+}
+
+final class XmlFailure extends XmlResult {
+  final List<XmlError> error;
+  const XmlFailure(this.error);
 }
 
 final class XPathResult {
@@ -197,15 +203,8 @@ class EditorState {
       } else {
         throw UnimplementedError("Found weird error: $e");
       }
-      return XmlFailure(errorMessage, line);
+      return XmlFailure([XmlError(message: errorMessage, line: line)]);
     }
-  }
-
-  String? get xmlError {
-    if (xml case XmlFailure error) {
-      return error.message;
-    }
-    return null;
   }
 
   void openFindPanel() => _findController.findMode();
