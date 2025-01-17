@@ -20,16 +20,10 @@ final class XmlSuccess extends XmlResult {
   const XmlSuccess(this.document);
 }
 
-final class XmlError {
-  final String message;
-  final int line;
-
-  XmlError({required this.message, required this.line});
-}
-
 final class XmlFailure extends XmlResult {
-  final List<XmlError> error;
-  const XmlFailure(this.error);
+  final String message;
+
+  XmlFailure({required this.message});
 }
 
 final class XPathResult {
@@ -173,8 +167,6 @@ class EditorState {
     return XPathResult(isError: true, message: "");
   }
 
-  bool get isValidXml => xml is XmlSuccess;
-
   bool get canUndo => _editorController.canUndo;
 
   bool get canRedo => _editorController.canRedo;
@@ -192,18 +184,8 @@ class EditorState {
       final document = XmlDocument.parse(_editorController.text);
       return XmlSuccess(document);
     } catch (e) {
-      String errorMessage;
-      int line;
-      if (e is XmlParserException) {
-        line = e.line;
-        errorMessage = e.message;
-      } else if (e is XmlTagException) {
-        line = e.line;
-        errorMessage = e.message;
-      } else {
-        throw UnimplementedError("Found weird error: $e");
-      }
-      return XmlFailure([XmlError(message: errorMessage, line: line)]);
+      String errorMessage = e.toString().split(": ").last;
+      return XmlFailure(message: errorMessage);
     }
   }
 

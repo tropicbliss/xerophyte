@@ -3,6 +3,7 @@ import 'package:xerophyte/code_editor/xml_editor.dart';
 import 'package:xerophyte/services/editor_state.dart';
 import 'package:xerophyte/services/l10n.dart';
 import 'package:xerophyte/services/printing/print_service.dart';
+import 'package:xerophyte/tree_editor/tree_editor.dart';
 import 'package:xerophyte/views/about.dart';
 import 'package:xerophyte/views/dialogs.dart';
 
@@ -37,7 +38,8 @@ class _MainLayoutState extends State<MainLayout> {
           EditorState editorState = snapshot.data!;
 
           bool isModified = editorState.isModified;
-          bool isValidXml = editorState.isValidXml;
+          XmlResult xmlResult = editorState.xml;
+          bool isValidXml = xmlResult is XmlSuccess;
 
           TextStyle? titleTheme = editorState.path == null
               ? Theme.of(context).textTheme.titleLarge
@@ -263,11 +265,9 @@ class _MainLayoutState extends State<MainLayout> {
                       },
                       isValidXml: isValidXml,
                     ),
-                    Center(
-                      child: Text(
-                        'XML Tree view',
-                      ),
-                    ),
+                    TreeEditor(
+                      xmlResult: xmlResult,
+                    )
                   ]),
             ),
           );
