@@ -12,21 +12,14 @@ class XmlUtils {
   }
 
   static String minifyXml(String xml) {
-    xml = xml.replaceAll(RegExp(r'<!--[\s\S]*?-->'), '');
-    xml = xml.replaceAll(RegExp(r'>\s+<'), '><');
-    xml = xml.trim();
-    xml = xml.replaceAll(RegExp(r'\s+(?=[^<]*\>)'), ' ');
-    xml = xml.replaceAll(RegExp(r'(\s+)'), ' ');
-    xml = xml.replaceAll(RegExp(r'\s*=\s*'), '=');
-    final cdataRegex = RegExp(r'(<!\[CDATA\[.*?\]\]>)');
-    final cdataSections = <String>[];
-    xml = xml.replaceAllMapped(cdataRegex, (match) {
-      cdataSections.add(match.group(0)!);
-      return '__CDATA_${cdataSections.length - 1}__';
-    });
-    for (var i = 0; i < cdataSections.length; i++) {
-      xml = xml.replaceAll('__CDATA_${i}__', cdataSections[i]);
-    }
-    return xml;
+    return xml
+        // Remove comments
+        .replaceAll(
+            RegExp(r'\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>'),
+            '')
+        // Normalize xmlns attributes
+        .replaceAll(RegExp(r'[ \r\n\t]{1,}xmlns'), ' xmlns')
+        // Remove whitespace between tags
+        .replaceAll(RegExp(r'>\s{0,}<'), '><');
   }
 }
