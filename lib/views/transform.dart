@@ -15,9 +15,7 @@ class _QueryViewState extends State<QueryView> {
 
   @override
   Widget build(BuildContext context) {
-    XPathResult toXmlTransform() {
-      return widget.editorState.transform(_queryString);
-    }
+    XPathResult result = widget.editorState.transform(_queryString);
 
     return Scrollbar(
       thumbVisibility: true,
@@ -46,16 +44,13 @@ class _QueryViewState extends State<QueryView> {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 padding: EdgeInsets.all(8.0),
-                child: Builder(builder: (context) {
-                  XPathResult result = toXmlTransform();
-                  return SelectableText(
-                    result.message,
-                    style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 14,
-                        color: result.isError ? Colors.red : null),
-                  );
-                }),
+                child: SelectableText(
+                  result.message,
+                  style: TextStyle(
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      color: result.isError ? Colors.red : null),
+                ),
               )
             ],
           ),
