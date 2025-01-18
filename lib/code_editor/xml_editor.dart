@@ -28,8 +28,7 @@ class _XmlEditorState extends State<XmlEditor> {
   @override
   void initState() {
     super.initState();
-    _lastSourceCode = ValueNotifier(
-        widget.editorController.codeLines.asString(TextLineBreak.lf));
+    _lastSourceCode = ValueNotifier(widget.editorController.text);
     _lastSourceCode.addListener(() {
       widget.onChange();
     });
@@ -65,7 +64,7 @@ class _XmlEditorState extends State<XmlEditor> {
       findBuilder: (context, controller, readOnly) =>
           CodeFindPanelView(controller: controller, readOnly: readOnly),
       onChanged: (e) {
-        _lastSourceCode.value = e.codeLines.asString(TextLineBreak.lf);
+        _lastSourceCode.value = widget.editorController.text;
       },
       autocompleteSymbols: false,
       sperator: Container(width: 1, color: Colors.grey),
