@@ -263,7 +263,6 @@ class _MainLayoutState extends State<MainLayout> {
                       onChange: () {
                         setState(() {});
                       },
-                      isValidXml: isValidXml,
                     ),
                     TreeEditor(
                       xmlResult: xmlResult,

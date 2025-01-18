@@ -6,18 +6,34 @@ import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:xerophyte/code_editor/find.dart';
 import 'package:xerophyte/code_editor/xml_code_chunk_analyzer.dart';
 
-class XmlEditor extends StatelessWidget {
+class XmlEditor extends StatefulWidget {
   final CodeLineEditingController editorController;
   final CodeFindController findController;
   final void Function() onChange;
-  final bool isValidXml;
 
-  const XmlEditor(
-      {super.key,
-      required this.editorController,
-      required this.findController,
-      required this.onChange,
-      required this.isValidXml});
+  const XmlEditor({
+    super.key,
+    required this.editorController,
+    required this.findController,
+    required this.onChange,
+  });
+
+  @override
+  State<XmlEditor> createState() => _XmlEditorState();
+}
+
+class _XmlEditorState extends State<XmlEditor> {
+  late ValueNotifier<String> _lastSourceCode;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastSourceCode = ValueNotifier(
+        widget.editorController.codeLines.asString(TextLineBreak.lf));
+    _lastSourceCode.addListener(() {
+      widget.onChange();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +57,15 @@ class XmlEditor extends StatelessWidget {
           ],
         );
       },
-      chunkAnalyzer: XmlCodeChunkAnalyzer(isValidXml: isValidXml),
+      chunkAnalyzer: XmlCodeChunkAnalyzer(),
       wordWrap: false,
       autofocus: false,
-      controller: editorController,
-      findController: findController,
+      controller: widget.editorController,
+      findController: widget.findController,
       findBuilder: (context, controller, readOnly) =>
           CodeFindPanelView(controller: controller, readOnly: readOnly),
       onChanged: (e) {
-        onChange();
+        _lastSourceCode.value = e.codeLines.asString(TextLineBreak.lf);
       },
       autocompleteSymbols: false,
       sperator: Container(width: 1, color: Colors.grey),
