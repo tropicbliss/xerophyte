@@ -19,5 +19,7 @@
   "redo": "Redo",
   "unsaved_changes_prompt": "You have unsaved changes that will be lost. Do you want to continue?",
   "aboutDescription": "Xerophyte is a simple and lightweight Android XML editor. This app is <a action='OPEN_REPO'>open source</a> and ad-free. Users commit to ethical conduct while using this app.",
-  "unexpectedError": "An unexpected error occurred"
+  "unexpectedError": "An unexpected error occurred",
+  "copy": "Copy",
+  "paste": "Paste"
 }

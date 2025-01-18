@@ -228,6 +228,14 @@ class _MainLayoutState extends State<MainLayout> {
                                 }
                               : null,
                         ),
+                        IconButton(
+                            tooltip: getTranslations(context).copy,
+                            icon: const Icon(Icons.copy),
+                            onPressed: () => editorState.copy()),
+                        IconButton(
+                            tooltip: getTranslations(context).paste,
+                            icon: const Icon(Icons.paste),
+                            onPressed: () => editorState.paste()),
                         const Spacer(),
                         IconButton(
                           tooltip: getTranslations(context).undo,

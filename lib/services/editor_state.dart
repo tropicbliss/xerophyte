@@ -51,6 +51,10 @@ class EditorState {
 
   void selectAll() => _editorController.selectAll();
 
+  void copy() => _editorController.copy();
+
+  void paste() => _editorController.paste();
+
   static Future<EditorState> create() async {
     final path = await EditorPersistence.getLastPath();
     if (path != null) {
